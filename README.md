@@ -10,8 +10,8 @@ Shuttle-Jaguar is a powerful text-to-image generation model by shuttleai that ca
 
 1. Clone this repository:
 ```bash
-git clone https://github.com/yourusername/jaguar-diffusers.git
-cd jaguar-diffusers
+git clone https://github.com/MushroomFleet/Jaguar-Diffusers
+cd Jaguar-Diffusers
 ```
 
 2. Install required dependencies:
