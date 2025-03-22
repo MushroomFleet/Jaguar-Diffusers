@@ -1,0 +1,14 @@
+# Sample prompts for batch generation
+# Lines starting with # are treated as comments and ignored
+# Each line should contain a single prompt
+
+A majestic lion standing on a cliff at sunset
+A futuristic cityscape with flying cars and neon lights
+A serene Japanese garden with cherry blossoms and a small pond
+An underwater scene of a coral reef with colorful fish
+A cozy cabin in the woods during a snowfall
+A steampunk-inspired mechanical owl with brass gears and cogs
+A vibrant farmer's market with fresh produce and flowers
+A mystical forest with glowing mushrooms and fairy lights
+An astronaut standing on the surface of Mars
+A dragon perched on top of a castle in a fantasy landscape
