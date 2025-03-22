@@ -20,6 +20,7 @@ def generate_image(
     seed: int = None,
     save_vram: bool = False,
     use_compile: bool = False,
+    weights_path: str = None,
 ):
     """
     Generate an image using the shuttle-jaguar model.
@@ -35,18 +36,32 @@ def generate_image(
         seed (int, optional): Random seed for reproducibility. Defaults to None.
         save_vram (bool, optional): Enable CPU offloading to save VRAM. Defaults to False.
         use_compile (bool, optional): Enable torch.compile for performance boost. Defaults to False.
+        weights_path (str, optional): Path to local model weights file. Defaults to None.
 
     Returns:
         PIL.Image.Image: The generated image
     """
+    import os
+
     # Check for CUDA availability
     device = "cuda" if torch.cuda.is_available() else "cpu"
     
     # Load the diffusion pipeline
-    pipe = DiffusionPipeline.from_pretrained(
-        "shuttleai/shuttle-jaguar", 
-        torch_dtype=torch.bfloat16 if device == "cuda" else torch.float32
-    ).to(device)
+    if weights_path and os.path.exists(weights_path):
+        print(f"Loading model from local weights: {weights_path}")
+        pipe = DiffusionPipeline.from_pretrained(
+            "shuttleai/shuttle-jaguar", 
+            torch_dtype=torch.bfloat16 if device == "cuda" else torch.float32,
+            local_files_only=True,
+            use_safetensors=True,
+            local_files_only_safetensors_path=weights_path
+        ).to(device)
+    else:
+        print("Loading model from HuggingFace Hub")
+        pipe = DiffusionPipeline.from_pretrained(
+            "shuttleai/shuttle-jaguar", 
+            torch_dtype=torch.bfloat16 if device == "cuda" else torch.float32
+        ).to(device)
     
     # Apply VRAM saving if requested
     if save_vram:

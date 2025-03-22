@@ -73,6 +73,11 @@ def parse_arguments():
         action="store_true",
         help="Enable torch.compile for potential performance boost (may increase loading time)"
     )
+    parser.add_argument(
+        "--weights-path",
+        type=str,
+        help="Path to local model weights file (e.g., shuttle-jaguar-fp8.safetensors) if you want to use local weights instead of downloading from HuggingFace"
+    )
     
     return parser.parse_args()
 
@@ -90,10 +95,21 @@ def main():
     
     try:
         # Load the diffusion pipeline with the appropriate settings
-        pipe = DiffusionPipeline.from_pretrained(
-            "shuttleai/shuttle-jaguar", 
-            torch_dtype=torch.bfloat16 if device == "cuda" else torch.float32
-        ).to(device)
+        if args.weights_path and os.path.exists(args.weights_path):
+            print(f"Loading model from local weights: {args.weights_path}")
+            pipe = DiffusionPipeline.from_pretrained(
+                "shuttleai/shuttle-jaguar", 
+                torch_dtype=torch.bfloat16 if device == "cuda" else torch.float32,
+                local_files_only=True,
+                use_safetensors=True,
+                local_files_only_safetensors_path=args.weights_path
+            ).to(device)
+        else:
+            print("Loading model from HuggingFace Hub")
+            pipe = DiffusionPipeline.from_pretrained(
+                "shuttleai/shuttle-jaguar", 
+                torch_dtype=torch.bfloat16 if device == "cuda" else torch.float32
+            ).to(device)
         
         # Apply VRAM saving if requested
         if args.save_vram:

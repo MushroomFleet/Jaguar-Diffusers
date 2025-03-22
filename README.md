@@ -6,6 +6,13 @@ A simple command-line interface for generating images with the shuttleai/shuttle
 
 Shuttle-Jaguar is a powerful text-to-image generation model by shuttleai that can create high-quality images from text prompts.
 
+## Model Weights
+
+The model weights for shuttle-jaguar are available in FP8 format:
+- Direct link: [shuttle-jaguar-fp8.safetensors](https://huggingface.co/shuttleai/shuttle-jaguar/resolve/main/fp8/shuttle-jaguar-fp8.safetensors)
+
+When using the diffusers pipeline as implemented in this repository, the weights will be automatically downloaded from the Hugging Face Hub. However, you can also manually download the weights if needed for custom implementations or offline use.
+
 ## Installation
 
 1. Clone this repository:
@@ -43,6 +50,7 @@ The generated image will be saved as `output.png` in the current directory by de
 | `--seed` | int | (None) | Random seed for reproducibility |
 | `--save-vram` | flag | (False) | Enable CPU offloading to save VRAM |
 | `--compile` | flag | (False) | Enable torch.compile for performance boost |
+| `--weights-path` | string | (None) | Path to local model weights file (e.g., shuttle-jaguar-fp8.safetensors) |
 
 ### Examples
 
@@ -69,6 +77,15 @@ python generate.py --prompt "An oil painting of a dog in a park" --seed 42
 #### Saving VRAM
 ```bash
 python generate.py --prompt "A fantasy castle on a floating island" --save-vram
+```
+
+#### Using Local Weights File
+```bash
+# First download the weights
+wget https://huggingface.co/shuttleai/shuttle-jaguar/resolve/main/fp8/shuttle-jaguar-fp8.safetensors
+
+# Then use the local weights file
+python generate.py --prompt "A detailed painting of a galaxy" --weights-path shuttle-jaguar-fp8.safetensors
 ```
 
 ## Requirements
