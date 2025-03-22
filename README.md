@@ -4,7 +4,7 @@ A simple command-line interface for generating images with the shuttleai/shuttle
 
 ## About Shuttle-Jaguar
 
-Shuttle-Jaguar is a powerful text-to-image generation model by shuttleai that can create high-quality images from text prompts.
+Shuttle-Jaguar is a powerful text-to-image generation model by shuttleai that can create high-quality images from text prompts. This implementation specifically uses the FP8 format of the model for optimal performance and efficiency.
 
 ## Model Weights
 

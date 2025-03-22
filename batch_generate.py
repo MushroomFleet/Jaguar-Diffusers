@@ -146,10 +146,11 @@ def main():
                 local_files_only_safetensors_path=args.weights_path
             ).to(device)
         else:
-            print("Loading model from HuggingFace Hub")
+            print("Loading model from HuggingFace Hub (FP8 format)")
             pipe = DiffusionPipeline.from_pretrained(
                 "shuttleai/shuttle-jaguar", 
-                torch_dtype=torch.bfloat16 if device == "cuda" else torch.float32
+                torch_dtype=torch.bfloat16 if device == "cuda" else torch.float32,
+                variant="fp8"
             ).to(device)
         
         # Apply VRAM saving if requested
